@@ -9,22 +9,23 @@ set_env_vars() {
   echo "enter the desired root password (default: auto-generated):"
   read root_password
   export ROOT_PASSWORD="${root_password}"
-  export ARCH_LIVECD=true
 }
 
 install_base() {
   cd ./arch-install
   ./pre-install.sh && ./install.sh && ./configure.sh
+  cd ../
 }
 
 install_dev() {
-  cd ./arch-devbox-install
+  local arch_devbox_install_path='/usr/local/src/arch-devbox-install'
+  cp -r ./arch-devbox-install "/mnt/$arch_devbox_install_path"
   # get files in
-  ./scripts/setup.sh && ./scripts/install.sh
-  cp ./files/.bash_profile /home/hobag/
-  mkdir -p /etc/systemd/system/getty/@tty1.service.d
-  cp ./files/autologin-systemd-service.conf /etc/systemd/system/getty@tty1.service.d/override.conf
-  ./scripts/bootstrap.sh && ./scripts/tidy_up.sh
+  arch-chroot /mnt "$arch_devbox_install_path/scripts/setup.sh" && arch-chroot /mnt "$arch_devbox_install_path/scripts/install.sh"
+  cp ./arch-devbox-install/files/.bash_profile /mnt/home/hobag/
+  mkdir -p /mnt/etc/systemd/system/getty@tty1.service.d
+  cp ./arch-devbox-install/files/autologin-systemd-service.conf /mnt/etc/systemd/system/getty@tty1.service.d/override.conf
+  arch-chroot /mnt "$arch_devbox_install_path/scripts/bootstrap.sh" && arch-chroot /mnt "$arch_devbox_install_path/scripts/tidy_up.sh"
 }
 
 set_env_vars
