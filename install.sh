@@ -9,6 +9,7 @@ set_env_vars() {
   echo "enter the desired root password (default: auto-generated):"
   read root_password
   export ROOT_PASSWORD="${root_password}"
+  export ARCH_LIVECD=true
 }
 
 install_base() {
