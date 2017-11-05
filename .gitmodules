@@ -1,0 +1,6 @@
+[submodule "arch-install"]
+	path = arch-install
+	url = https://github.com/twistedvines/arch-install.git
+[submodule "arch-devbox-install"]
+	path = arch-devbox-install
+	url = https://github.com/twistedvines/arch-devbox-install.git
