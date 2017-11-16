@@ -23,6 +23,7 @@ install_dev() {
   # get files in
   arch-chroot /mnt "$arch_devbox_install_path/scripts/setup.sh" && arch-chroot /mnt "$arch_devbox_install_path/scripts/install.sh"
   cp ./arch-devbox-install/files/.bash_profile /mnt/home/hobag/
+  cp ./arch-devbox-install/files/.xinitrc /mnt/home/hobag
   mkdir -p /mnt/etc/systemd/system/getty@tty1.service.d
   cp ./arch-devbox-install/files/autologin-systemd-service.conf /mnt/etc/systemd/system/getty@tty1.service.d/override.conf
   arch-chroot /mnt "$arch_devbox_install_path/scripts/bootstrap.sh" && arch-chroot /mnt "$arch_devbox_install_path/scripts/tidy_up.sh"
