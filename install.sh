@@ -27,6 +27,7 @@ install_dev() {
   mkdir -p /mnt/etc/systemd/system/getty@tty1.service.d
   cp ./arch-devbox-install/files/autologin-systemd-service.conf /mnt/etc/systemd/system/getty@tty1.service.d/override.conf
   arch-chroot /mnt "$arch_devbox_install_path/scripts/bootstrap.sh" && arch-chroot /mnt "$arch_devbox_install_path/scripts/tidy_up.sh"
+  arch-chroot /mnt rm -rf "$arch_devbox_install_path"
 }
 
 set_env_vars
