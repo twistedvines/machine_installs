@@ -30,6 +30,35 @@ install_dev() {
   arch-chroot /mnt rm -rf "$arch_devbox_install_path"
 }
 
+install_t420() {
+  # install graphics drivers
+  pacstrap /mnt xf86-video-intel
+  # install audio drivers
+  pacstrap /mnt alsa-firmware alsa-tools alsa-utils
+}
+
+get_machine_model() {
+  pacman -Syq --noconfirm dmidecode > /dev/null
+  dmidecode | grep -A3 '^System Information' | \
+    grep 'Version' | awk -F':' '{print $2}'
+}
+
+install_based_on_machine_model() {
+  local machine_model="$1"
+
+  case "$machine_model" in
+    "*ThinkPad T420*")
+      install_t420
+      ;;
+    *)
+      echo "Cannot install machine-specific scripts for $machine_model."
+      ;;
+  esac
+}
+
 set_env_vars
 git submodule update --init
 install_base && install_dev
+machine_model="$(get_machine_model)"
+
+install_based_on_machine_model "$machine_model"
