@@ -47,7 +47,7 @@ install_based_on_machine_model() {
   local machine_model="$1"
 
   case "$machine_model" in
-    "*ThinkPad T420*")
+    *"T420"*)
       install_t420
       ;;
     *)
@@ -57,7 +57,7 @@ install_based_on_machine_model() {
 }
 
 set_env_vars
-git submodule update --init
+git submodule update --init --remote --recursive
 install_base && install_dev
 machine_model="$(get_machine_model)"
 
